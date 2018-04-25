@@ -2,7 +2,7 @@ import tkinter.messagebox
 import tkinter as tk
 import random
 
-tileField, cheatTile, emptyTile, bombTile, pbombTile, flagTile, qmarkTile, nearbyTile, userField, gameField, buttons, bombs, generated, cheatCode, cheatIterator, enabledCheat = 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, False, [0, 0, 0, 0, 0], 0, False #global variables (images, lists)
+tileField, statusField, flagInfo, cheatTile, emptyTile, bombTile, pbombTile, flagTile, qmarkTile, nearbyTile, userField, gameField, buttons, bombs, generated, cheatCode, cheatIterator, enabledCheat = 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, False, [0, 0, 0, 0, 0], 0, False #global variables (images, lists)
 application = 0
 
 
@@ -10,18 +10,24 @@ def checkParameters(h, w, b, gameFrame, app):
     if h < 2 or w < 2 or h > 15 or w > 15 or b < 0 or b > h*w:
         tkinter.messagebox.showinfo("Bad parameters", "Please input a valid size of a board and a number of mines!")
     else:
-        global tileField, userField, gameField, buttons, generated, application, enabledCheat
+        global tileField, userField, gameField, buttons, generated, application, enabledCheat, statusField, flagInfo
         gameFrame.focus_force()
         application = app
         loadImages()
         try: #exception #2
             tileField.destroy()
+            statusField.destroy()
         except AttributeError:
             print("First launch!")
         tileField = tk.Frame(gameFrame)
-        tileField.grid(row = 0, column =0, sticky=tk.N)
+        tileField.grid(row=1, column =0)
         userField, gameField = generateLists(h, w, b)
         buttons = generateTiles(h, w, tileField)
+        statusField = tk.Frame(gameFrame)
+        statusField.grid(row=0, column=0)
+        mineInfo = tk.Label(statusField, text="Mines: " + str(b), width=10).grid(row=0, column=0, padx=5, pady=5)
+        flagInfo = tk.Label(statusField, text="Flags: 0", width=10)
+        flagInfo.grid(row=0, column=1, padx=5, pady=5)
         application.bind("<Key>", cheat)
 
 
@@ -246,33 +252,34 @@ def rightClickLambda(i, j, w, h):
 
 def leftClick(i, j, w, h):
     global emptyTile, bombTile, pbombTile, flagTile, qmarkTile, nearbyTile, enabledCheat
-    buttons[i * w + j][0].unbind("<Button 1>")
-    buttons[i * w + j][0].unbind("<Button 3>")
-    #buttons[i * w + j][0].configure(state=tk.DISABLED)
-    if gameField[i][j] == 9:
-        enabledCheat = False
-        tkinter.messagebox.showinfo("You lose!", "Unfortunately you stop on a mine!")
-        for x in buttons:
-            x[0].unbind("<Button 1>")
-            x[0].unbind("<Button 3>")
-            if gameField[x[1][0]][x[1][1]] == 9:
-                x[0].config(image=pbombTile)
-            else:
-                x[0].config(image=nearbyTile[gameField[x[1][0]][x[1][1]]])
-        buttons[i * w + j][0].config(image=bombTile)
-    elif gameField[i][j] == 0:
-        checkEmptyNeigbours(i, j, w, h)
-    else:
-        userField[i][j] = 'O'
-        buttons[i * w + j][0].config(image=nearbyTile[gameField[i][j]])
-        checkForWin(w, h)
-        checkForWin2(w, h)
+    if userField[i][j] != 'F' and userField[i][j] != 'Q':
+        buttons[i * w + j][0].unbind("<Button 1>")
+        buttons[i * w + j][0].unbind("<Button 3>")
+        #buttons[i * w + j][0].configure(state=tk.DISABLED)
+        if gameField[i][j] == 9:
+            enabledCheat = False
+            tkinter.messagebox.showinfo("You lose!", "Unfortunately you stop on a mine!")
+            for x in buttons:
+                x[0].unbind("<Button 1>")
+                x[0].unbind("<Button 3>")
+                if gameField[x[1][0]][x[1][1]] == 9:
+                    x[0].config(image=pbombTile)
+                else:
+                    x[0].config(image=nearbyTile[gameField[x[1][0]][x[1][1]]])
+            buttons[i * w + j][0].config(image=bombTile)
+        elif gameField[i][j] == 0:
+            checkEmptyNeigbours(i, j, w, h)
+        else:
+            userField[i][j] = 'O'
+            buttons[i * w + j][0].config(image=nearbyTile[gameField[i][j]])
+            checkForWin(w, h)
+            checkForWin2(w, h)
 
 
 def checkEmptyNeigbours(i, j, w, h):
     if i < 0 or j < 0 or i > h-1 or j > w-1 or userField[i][j] != 'X':
         return
-    if gameField[i][j] == 0:
+    if gameField[i][j] == 0 and userField[i][j] != 'F':
         userField[i][j] = 'O'
         buttons[i * w + j][0].config(image=nearbyTile[0])
         buttons[i * w + j][0].unbind("<Button 1>")
@@ -282,7 +289,7 @@ def checkEmptyNeigbours(i, j, w, h):
         checkEmptyNeigbours(i - 1, j, w, h)
         checkEmptyNeigbours(i + 1, j, w, h)
         checkEmptyNeigbours(i, j + 1, w, h)
-    else:
+    elif userField[i][j] != 'F':
         userField[i][j] = 'O'
         buttons[i * w + j][0].config(image=nearbyTile[gameField[i][j]])
         buttons[i * w + j][0].unbind("<Button 1>")
@@ -291,13 +298,25 @@ def checkEmptyNeigbours(i, j, w, h):
 
 
 def rightClick(i, j, w, h):
-    global enabledCheat
+    global enabledCheat, statusField, flagInfo
     if userField[i][j] == 'X':
         userField[i][j] = 'F'
         buttons[i * w + j][0].config(image=flagTile)
+        countFlags = 0
+        for i in range(0, h):
+            for j in range(0, w):
+                if userField[i][j] == 'F':
+                    countFlags += 1
+        flagInfo.config(text='Flags: '+str(countFlags))
     elif userField[i][j] == 'F':
         userField[i][j] = 'Q'
         buttons[i * w + j][0].config(image=qmarkTile)
+        countFlags = 0
+        for i in range(0, h):
+            for j in range(0, w):
+                if userField[i][j] == 'F':
+                    countFlags += 1
+        flagInfo.config(text='Flags: ' + str(countFlags))
     elif userField[i][j] == 'Q':
         userField[i][j] = 'X'
         if enabledCheat:

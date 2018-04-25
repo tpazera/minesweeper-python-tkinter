@@ -32,8 +32,8 @@ class StartPage(tk.Frame):
         wrapperFrame.grid()
         tk.Message(wrapperFrame, text="Saper!\nTomasz Pazera", justify="center", font="System 14 bold", aspect=500).grid(row=0, column=0, pady=(0, 20))
         tk.Button(wrapperFrame, text="Start", command=lambda: master.changeWindow(GamePage)).grid(row=1, column=0, pady=(0, 20)) #lambda #1
-        tk.Button(wrapperFrame, text="Settings", command=lambda: master.changeWindow(SettingsPage)).grid(row=2, column=0, pady=(0, 20)) #lambda #2
-        tk.Button(wrapperFrame, text="Credits", command=lambda: master.changeWindow(GamePage)).grid(row=3, column=0, pady=(0, 20)) #lambda #3
+        tk.Button(wrapperFrame, text="Ranking", command=lambda: master.changeWindow(RankingPage)).grid(row=2, column=0, pady=(0, 20)) #lambda #2
+        tk.Button(wrapperFrame, text="Credits", command=lambda: master.changeWindow(CreditsPage)).grid(row=3, column=0, pady=(0, 20)) #lambda #3
         tk.Button(wrapperFrame, text="Quit", command=self.master.destroy).grid(row=4, column=0, columnspan=15, pady=(0, 30))
         tk.Label(wrapperFrame, width=50).grid()
 
@@ -87,7 +87,7 @@ class GamePage(tk.Frame):
         returnButton = tk.Button(footerFrame, text="Return to start page", command=lambda: master.changeWindow(StartPage)).grid(row=3, column=0, columnspan=2, padx=5, pady=15)  #lambda #5
 
         tk.Label(wrapperFrame, width=50).grid()
-        tk.Label(gameFrame, height=25).grid(column=0, row=0)
+        tk.Label(gameFrame).grid(column=0, row=0)
 
     def startGame(self, h, w, b, gameFrame):
         print("H:", h, "W:", w, "B:", b)
@@ -126,12 +126,26 @@ class GamePage(tk.Frame):
             be.config(state='disabled')
 
 
-class SettingsPage(tk.Frame):
+class RankingPage(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
+        wrapperFrame = tk.Frame(self)
+        wrapperFrame.grid()
+        underWorking = tk.Label(wrapperFrame, text="Not ready yet!")
+        underWorking.grid(row=0,column=0)
+        returnButton = tk.Button(wrapperFrame, text="Return to start page", command=lambda: master.changeWindow(StartPage))
+        returnButton.grid(row=1,column=0)
+        tk.Label(wrapperFrame, width=50).grid()
 
-        page_2_label = tk.Label(self, text="This is page two")
-        start_button = tk.Button(self, text="Return to start page",
-                                 command=lambda: master.changeWindow(StartPage))
-        page_2_label.grid()
-        start_button.grid()
+
+
+class CreditsPage(tk.Frame):
+    def __init__(self, master):
+        tk.Frame.__init__(self, master)
+        wrapperFrame = tk.Frame(self)
+        wrapperFrame.grid()
+        informationLabel = tk.Label(wrapperFrame, text="Saper - projekt zaliczeniowy\nPrzedmiot: Języki symboliczne\nAutor: Tomasz Pazera, gl06, Informatyka II rok")
+        informationLabel.grid(row=0,column=0)
+        returnButton = tk.Button(wrapperFrame, text="Return to start page", command=lambda: master.changeWindow(StartPage))
+        returnButton.grid(row=1,column=0)
+        tk.Label(wrapperFrame, width=50).grid()
