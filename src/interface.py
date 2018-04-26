@@ -1,4 +1,3 @@
-import tkinter as tk
 from src.game import *
 
 app = 0
@@ -13,7 +12,6 @@ class App(tk.Tk):
         tk.Tk.__init__(self)
         self.title("Saper - Tomasz Pazera")
         self.resizable(False, False)
-        #self.tk_setPalette(background='#333')
         self.geometry("{}x{}".format(460,600))
         self.changeWindow(StartPage)
 
@@ -93,7 +91,8 @@ class GamePage(tk.Frame):
         print("H:", h, "W:", w, "B:", b)
         global app
         try: #exception #1
-            checkParameters(int(h), int(w), int(b), gameFrame, app)
+            game = Game("Minesweeper")
+            game.checkParameters(int(h), int(w), int(b), gameFrame, app)
         except ValueError:
             tk.messagebox.showinfo("Bad parameters", "Please input a valid size of a board and a number of mines!")
 
