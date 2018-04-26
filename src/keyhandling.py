@@ -2,11 +2,11 @@ import tkinter.messagebox
 
 
 def leftClickLambda(self, i, j, w, h):
-    return lambda Button: self.leftClick(i, j, w, h)  # lambda #5
+    return lambda Button: self.leftClick(i, j, w, h)  # lambda #1
 
 
 def rightClickLambda(self, i, j, w, h):
-    return lambda Button: self.rightClick(i, j, w, h)  # lambda #6
+    return lambda Button: self.rightClick(i, j, w, h)  # lambda #2
 
 
 def leftClick(self, i, j, w, h):

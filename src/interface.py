@@ -29,9 +29,9 @@ class StartPage(tk.Frame):
         wrapperFrame = tk.Frame(self)
         wrapperFrame.grid()
         tk.Message(wrapperFrame, text="Saper!\nTomasz Pazera", justify="center", font="System 14 bold", aspect=500).grid(row=0, column=0, pady=(0, 20))
-        tk.Button(wrapperFrame, text="Start", command=lambda: master.changeWindow(GamePage)).grid(row=1, column=0, pady=(0, 20)) #lambda #1
-        tk.Button(wrapperFrame, text="Ranking", command=lambda: master.changeWindow(RankingPage)).grid(row=2, column=0, pady=(0, 20)) #lambda #2
-        tk.Button(wrapperFrame, text="Credits", command=lambda: master.changeWindow(CreditsPage)).grid(row=3, column=0, pady=(0, 20)) #lambda #3
+        tk.Button(wrapperFrame, text="Start", command=lambda: master.changeWindow(GamePage)).grid(row=1, column=0, pady=(0, 20)) #lambda #3
+        tk.Button(wrapperFrame, text="Ranking", command=lambda: master.changeWindow(RankingPage)).grid(row=2, column=0, pady=(0, 20)) #lambda #4
+        tk.Button(wrapperFrame, text="Credits", command=lambda: master.changeWindow(CreditsPage)).grid(row=3, column=0, pady=(0, 20)) #lambda #5
         tk.Button(wrapperFrame, text="Quit", command=self.master.destroy).grid(row=4, column=0, columnspan=15, pady=(0, 30))
         tk.Label(wrapperFrame, width=50).grid()
 
@@ -73,16 +73,16 @@ class GamePage(tk.Frame):
         bombEntry.insert(tk.END, '20')
         bombEntry.grid(row=2, column=1, padx=5)
 
-        radio1 = tk.Radiobutton(formFrame, text="Custom", value=1, command = lambda : self.changeDifficulty(1, heightEntry, widthEntry, bombEntry))
+        radio1 = tk.Radiobutton(formFrame, text="Custom", value=1, command = lambda : self.changeDifficulty(1, heightEntry, widthEntry, bombEntry)) #lambda #6
         radio1.grid(row=0, column=2)
-        radio2 = tk.Radiobutton(formFrame, text="Begginer", value=2, command=lambda: self.changeDifficulty(2, heightEntry, widthEntry, bombEntry)).grid(row=1, column=2)
-        radio3 = tk.Radiobutton(formFrame, text="Intermediate", value=3, command=lambda: self.changeDifficulty(3, heightEntry, widthEntry, bombEntry)).grid(row=2, column=2)
-        radio4 = tk.Radiobutton(formFrame, text="Expert", value=4, command=lambda: self.changeDifficulty(4, heightEntry, widthEntry, bombEntry)).grid(row=3, column=2)
+        radio2 = tk.Radiobutton(formFrame, text="Begginer", value=2, command=lambda: self.changeDifficulty(2, heightEntry, widthEntry, bombEntry)).grid(row=1, column=2) #lambda #7
+        radio3 = tk.Radiobutton(formFrame, text="Intermediate", value=3, command=lambda: self.changeDifficulty(3, heightEntry, widthEntry, bombEntry)).grid(row=2, column=2) #lambda #8
+        radio4 = tk.Radiobutton(formFrame, text="Expert", value=4, command=lambda: self.changeDifficulty(4, heightEntry, widthEntry, bombEntry)).grid(row=3, column=2) #lambda #9
         radio1.invoke()
 
-        startButton = tk.Button(formFrame, text="Start", command=lambda: self.startGame(heightEntry.get(), widthEntry.get(), bombEntry.get(), gameFrame)).grid(row=4, column=0, columnspan=3,  padx=5, pady=(5, 15))  #lambda #4
+        startButton = tk.Button(formFrame, text="Start", command=lambda: self.startGame(heightEntry.get(), widthEntry.get(), bombEntry.get(), gameFrame)).grid(row=4, column=0, columnspan=3,  padx=5, pady=(5, 15))  #lambda #10
 
-        returnButton = tk.Button(footerFrame, text="Return to start page", command=lambda: master.changeWindow(StartPage)).grid(row=3, column=0, columnspan=2, padx=5, pady=15)  #lambda #5
+        returnButton = tk.Button(footerFrame, text="Return to start page", command=lambda: master.changeWindow(StartPage)).grid(row=3, column=0, columnspan=2, padx=5, pady=15)  #lambda #11
 
         tk.Label(wrapperFrame, width=50).grid()
         tk.Label(gameFrame).grid(column=0, row=0)
@@ -132,7 +132,7 @@ class RankingPage(tk.Frame):
         wrapperFrame.grid()
         underWorking = tk.Label(wrapperFrame, text="Not ready yet!")
         underWorking.grid(row=0,column=0)
-        returnButton = tk.Button(wrapperFrame, text="Return to start page", command=lambda: master.changeWindow(StartPage))
+        returnButton = tk.Button(wrapperFrame, text="Return to start page", command=lambda: master.changeWindow(StartPage)) #lambda #12
         returnButton.grid(row=1,column=0)
         tk.Label(wrapperFrame, width=50).grid()
 
@@ -145,6 +145,6 @@ class CreditsPage(tk.Frame):
         wrapperFrame.grid()
         informationLabel = tk.Label(wrapperFrame, text="Saper - projekt zaliczeniowy\nPrzedmiot: Języki symboliczne\nAutor: Tomasz Pazera, gl06, Informatyka II rok")
         informationLabel.grid(row=0,column=0)
-        returnButton = tk.Button(wrapperFrame, text="Return to start page", command=lambda: master.changeWindow(StartPage))
+        returnButton = tk.Button(wrapperFrame, text="Return to start page", command=lambda: master.changeWindow(StartPage)) #lambda #13
         returnButton.grid(row=1,column=0)
         tk.Label(wrapperFrame, width=50).grid()

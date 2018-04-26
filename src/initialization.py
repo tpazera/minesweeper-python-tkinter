@@ -3,19 +3,32 @@ import tkinter as tk
 import random
 
 
+class MyException(Exception):
+    def __init__(self, value):
+        self.value = value
+
+    def __str__(self):
+        return repr(self.value)
+
+
 def checkParameters(self, h, w, b, gameFrame, app):
     if h < 2 or w < 2 or h > 15 or w > 15 or b < 0 or b > h * w:
-        tkinter.messagebox.showinfo("Bad parameters", "Please input a valxDid size of a board and a number of mines!")
+        tkinter.messagebox.showinfo("Bad parameters", "Please input a valid size of a board and a number of mines!")
     else:
         gameFrame.focus_force()
         application = app
         self.loadImages()
 
-        try:  # exception #2
+        try:  #exception #2
             self.tileField.destroy()
             self.statusField.destroy()
         except AttributeError:
             print("First launch!")
+
+        try:
+            raise MyException(":)")
+        except MyException as exception:
+            print('Testing my own exception', exception.value)
 
         self.tileField = tk.Frame(gameFrame)
         self.tileField.grid(row=1, column=0)
@@ -46,7 +59,7 @@ def loadImages(self):
 def generateLists(self, h, w, b):
     userField = [[0] * w for i in range(h)] #list_comprehension #2
     gameField = [x for x in userField] #list comprehension #3
-    userField = [['X'] * w for i in range(h)]
+    userField = [['X'] * w for i in range(h)] #list comprehension #4
     bombs = b
     while (bombs > 0):
         x = random.randint(0, h-1)
@@ -190,3 +203,4 @@ def generateTiles(self, h, w, tileField):
     for x in buttons:
         x[0].grid(row=x[1][0], column=x[1][1])
     return buttons
+
