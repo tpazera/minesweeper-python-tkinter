@@ -37,10 +37,11 @@ def cheat(self, event):
 
     print(self.cheatCode)
     if self.cheatCode == ['x', 'y', 'z', 'z', 'y']:
+        self.cheatCode = [0, 0, 0, 0, 0]
+        self.cheatIterator = 0
         if self.enabledCheat == False:
+            print("Cheats enabled")
             self.enabledCheat = True
-            self.cheatIterator = 0
-            self.cheatCode = [0, 0, 0, 0, 0]
             for x in self.buttons:
                 if self.gameField[x[1][0]][x[1][1]] == 9:
                     x[0].config(image=self.cheatTile)

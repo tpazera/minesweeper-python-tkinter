@@ -15,7 +15,6 @@ def leftClick(self, i, j, w, h):
         self.buttons[i * w + j][0].unbind("<Button 3>")
         # buttons[i * w + j][0].configure(state=tk.DISABLED)
         if self.gameField[i][j] == 9:
-            enabledCheat = False
             tkinter.messagebox.showinfo("You lose!", "Unfortunately you stop on a mine!")
             for x in self.buttons:
                 x[0].unbind("<Button 1>")
@@ -27,6 +26,8 @@ def leftClick(self, i, j, w, h):
             self.buttons[i * w + j][0].config(image=self.bombTile)
         elif self.gameField[i][j] == 0:
             self.checkEmptyNeigbours(i, j, w, h)
+            self.checkForWin(w, h)
+            self.checkForWin2(w, h)
         else:
             self.userField[i][j] = 'O'
             self.buttons[i * w + j][0].config(image=self.nearbyTile[self.gameField[i][j]])

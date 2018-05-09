@@ -10,7 +10,6 @@ def checkForWin(self, w, h):
             if self.userField[i][j] == 'F':
                 flags += 1
     if correct == self.bombs and self.bombs == flags:
-        self.enabledCheat = False
         tkinter.messagebox.showinfo("You win!", "Nice work, you win!")
         for x in self.buttons:
             x[0].unbind("<Button 1>")
@@ -35,7 +34,6 @@ def checkForWin2(self, w, h):
                 clicked += 1
 
     if toClick == clicked:
-        self.enabledCheat = False
         tkinter.messagebox.showinfo("You win!", "Nice work, you win!")
         for x in self.buttons:
             x[0].unbind("<Button 1>")

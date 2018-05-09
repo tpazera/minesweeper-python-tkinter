@@ -42,6 +42,7 @@ def checkParameters(self, h, w, b, gameFrame, app):
         self.generateLists(h, w, b) #generating userField, gameField
         self.buttons = self.generateTiles(h, w, self.tileField)
 
+        self.enabledCheat = False
         application.bind("<Key>", self.cheat)
 
 
