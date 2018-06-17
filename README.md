@@ -1,4 +1,4 @@
-# saper-python-tkinter
+# minesweeper-python-tkinter
 
 Minesweeper written in Python using Tkinter library, created as a final project.
 
